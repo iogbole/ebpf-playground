@@ -1,5 +1,34 @@
 # proj-9
 
+##  Setting up 
+
+Clone repo
+
+```
+cd tcp 
+
+./clang.sh  # Compile C code 
+
+go build main.go # Build go code  
+
+./main # run go code 
+
+```
+## Simulate packet loss to cause TCP transmission 
+
+
+
+Mess around with the network parket from kernel by using Traffic control (`tc`) 
+
+To start
+`sudo tc qdisc add dev lo root netem loss 10%` 
+
+To stop 
+sudo tc qdisc del dev lo root 
+
+Note this might disconnct your SSH connection if you increase it any higher.  
+
+See the `add_net_load.sh` script for details
 
 
 ## Output 
