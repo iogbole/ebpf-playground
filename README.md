@@ -58,4 +58,27 @@ represents a single event related to a TCP retransmission. Here's the meaning of
 
 This output indicates that a TCP retransmission event has been captured, and it provides detailed information about the TCP connection's state, such as the number of retransmissions, the round-trip time, and the congestion window size. 
 
+-- 
 
+## Tips 
+
+1. Display tracepoint return fields 
+`sudo cat /sys/kernel/debug/tracing/events/tcp/tcp_retransmit_skb/format`
+
+2. To create the vmlinux.h file, you will need to use the BPF CO-RE (Compile Once, Run Everywhere) feature provided by bpftool. The vmlinux.h file is a generated header file that includes kernel structures and definitions required for BPF programs.
+
+To generate the vmlinux.h file, follow these steps:
+
+First, ensure you have bpftool installed on your system. You can usually find it in the linux-tools package or compile it from the kernel source.
+
+```
+bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
+```
+
+Now you should have a vmlinux.h file in your current working directory. You can include this file in your eBPF C programs to access kernel structures and definitions.
+
+Please note that the vmlinux.h file is specific to the kernel version and configuration, so it's recommended to generate it for each target system where you want to run your eBPF program.
+
+
+## Refs
+https://github.com/iovisor/bcc/blob/master/tools/tcpretrans_example.txt
