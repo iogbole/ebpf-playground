@@ -14,8 +14,6 @@ struct event {
     __u8 saddr_v6[16], daddr_v6[16];
     __u16 family;
     int state;
-    __u32 rtt;
-    __u32 rto;
 };
 
 struct tcp_retransmit_skb_ctx {
@@ -30,8 +28,6 @@ struct tcp_retransmit_skb_ctx {
     __u8 daddr[4];
     __u8 saddr_v6[16];
     __u8 daddr_v6[16];
-    __u32 rtt;
-    __u32 rto;
 };
 
 struct {
@@ -51,8 +47,6 @@ int tracepoint__tcp__tcp_retransmit_skb(struct tcp_retransmit_skb_ctx *ctx)
     event.dport = ctx->dport;
     event.family = ctx->family;
     event.state = ctx->state;
-    event.rtt = ctx->rtt;
-    event.rto = ctx->rto;
 
     if (event.family == AF_INET) {
         bpf_probe_read(event.saddr, sizeof(event.saddr), ctx->saddr);
