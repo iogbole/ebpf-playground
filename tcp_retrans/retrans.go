@@ -114,6 +114,7 @@ func main() {
 			output := map[string]interface{}{
 				"timestamp": timestamp,
 				"pid":       event.PID,
+				"state":     event.State,
 				"ipversion": event.Family,
 				"source": map[string]interface{}{
 					"ip":   srcIP,
@@ -123,7 +124,6 @@ func main() {
 					"ip":   dstIP,
 					"port": event.Dport,
 				},
-				"state": event.State,
 			}
 			jsonOutput, err := json.Marshal(output)
 			if err != nil {

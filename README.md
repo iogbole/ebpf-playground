@@ -5,7 +5,11 @@
 Clone repo
 
 ```
-cd tcp 
+cd tcp_retransmit 
+
+sudo apt-get install -y bpfcc-tools
+
+bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h # See tip 2 below.
 
 ./clang.sh  # Compile C code 
 
@@ -77,8 +81,10 @@ bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 Now you should have a vmlinux.h file in your current working directory. You can include this file in your eBPF C programs to access kernel structures and definitions.
 
-Please note that the vmlinux.h file is specific to the kernel version and configuration, so it's recommended to generate it for each target system where you want to run your eBPF program.
+Please note that the  vmlinux.h file is specific to the kernel version and configuration, so it's recommended to generate it for each target system where you want to run your eBPF program.
 
 
 ## Refs
-https://github.com/iovisor/bcc/blob/master/tools/tcpretrans_example.txt
+
+Retrans fields: https://github.com/iovisor/bcc/blob/master/tools/tcpretrans_example.txt
+BPF CORE : https://facebookmicrosites.github.io/bpf/blog/2020/02/19/bpf-portability-and-co-re.html 
