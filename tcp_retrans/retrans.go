@@ -96,10 +96,13 @@ func main() {
 
 			timestamp := time.Unix(0, int64(event.Timestamp)).Format(time.RFC3339)
 			var srcIP, dstIP string
+			ipVersion := 0
 			if event.Family == 2 { // AF_INET
+				ipVersion = 4
 				srcIP = fmt.Sprintf("%d.%d.%d.%d", event.Saddr[0], event.Saddr[1], event.Saddr[2], event.Saddr[3])
 				dstIP = fmt.Sprintf("%d.%d.%d.%d", event.Daddr[0], event.Daddr[1], event.Daddr[2], event.Daddr[3])
 			} else if event.Family == 10 { // AF_INET6
+				ipVersion = 6
 				srcIP = fmt.Sprintf("%x%x:%x%x:%x%x:%x%x:%x%x:%x%x:%x%x:%x%x",
 					event.SaddrV6[0], event.SaddrV6[1], event.SaddrV6[2], event.SaddrV6[3],
 					event.SaddrV6[4], event.SaddrV6[5], event.SaddrV6[6], event.SaddrV6[7],
@@ -115,7 +118,7 @@ func main() {
 				"timestamp": timestamp,
 				"pid":       event.PID,
 				"state":     event.State,
-				"ipversion": event.Family,
+				"ipversion": ipVersion,
 				"source": map[string]interface{}{
 					"ip":   srcIP,
 					"port": event.Sport,
