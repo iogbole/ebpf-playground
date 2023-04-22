@@ -1,5 +1,13 @@
 # proj-9
 
+## VM 
+
+There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code
+```
+limactl start ebpf-vm.yaml
+limactl shell ebpf-vm
+```
+
 ##  Setting up 
 
 Clone repo
