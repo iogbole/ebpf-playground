@@ -32,6 +32,8 @@ Next, clone the repo
 Clone repo
 
 ```
+cd project-9
+
 cd tcp_retransmit 
 
 sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
