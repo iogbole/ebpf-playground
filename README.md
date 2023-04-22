@@ -1,5 +1,13 @@
 # proj-9
 
+## VM 
+
+There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code
+```
+limactl start ebpf-vm.yaml
+limactl shell ebpf-vm
+```
+
 ##  Setting up 
 
 Clone repo
@@ -7,7 +15,7 @@ Clone repo
 ```
 cd tcp_retransmit 
 
-sudo apt-get install -y bpfcc-tools
+sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
 
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h # See tip 2 below.
 
@@ -38,29 +46,15 @@ See the `add_net_load.sh` script for details
 ## Output 
 
 ```
-Event: Type=1, Source=[127 0 0 1]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=16777343, SndCwnd=0, Ssthresh=0
-Event: Type=1, Source=[127 0 0 1]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=16777343, SndCwnd=0, Ssthresh=0
-Event: Type=1, Source=[127 0 0 1]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=16777343, SndCwnd=0, Ssthresh=0
-Event: Type=1, Source=[127 0 0 1]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=16777343, SndCwnd=0, Ssthresh=0
-Event: Type=1, Source=[127 0 0 1]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=16777343, SndCwnd=0, Ssthresh=0
-Event: Type=1, Source=[86 30 33 20]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=2418679724, SndCwnd=0, Ssthresh=0
+{"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":38130},"state":65536,"timestamp":"1970-01-04T23:40:37Z"}
+{"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":38130},"state":720896,"timestamp":"1970-01-04T23:40:38Z"}
+{"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":60288},"state":65536,"timestamp":"1970-01-04T23:40:44Z"}
+{"destination":{"ip":"192.168.5.2","port":51121},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":22},"state":65536,"timestamp":"1970-01-04T23:41:13Z"}
+{"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":56912},"state":65536,"timestamp":"1970-01-04T23:41:51Z"}
+{"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":56912},"state":65536,"timestamp":"1970-01-04T23:41:52Z"}
 ```
-The output
 
-`Event: Type=1, Source=[127 0 0 1]:1, Destination=[0 0 0 0]:0, Retrans=0, RTO=4294901760, RTT=16777343, SndCwnd=0, Ssthresh=0`
-
-represents a single event related to a TCP retransmission. Here's the meaning of each field:
-
-- Type: The event type, where 1 indicates a TCP retransmission event.
-- Source: The source IP address and port number. In this case, the source is [127 0 0 1]:1, which is localhost (127.0.0.1) with port number 1.
-- Destination: The destination IP address and port number. In this case, the destination is [0 0 0 0]:0, which is an unspecified address and port.
-- Retrans: The total number of retransmissions for the TCP connection. In this case, it is 0.
-- RTO (Retransmission Timeout): The current retransmission timeout value in microseconds. In this case, it is 4294901760 µs.
-- RTT (Round-Trip Time): The smoothed round-trip time in microseconds. In this case, it is 16777343 µs.
-- SndCwnd (Send Congestion Window): The size of the TCP send congestion window, which controls the amount of data that can be in transit at any given time. In this case, the value is 0.
-- Ssthresh (Slow Start Threshold): The slow-start threshold in the TCP congestion control algorithm. When the congestion window size is below this threshold, the slow-start phase is active. In this case, the value is 0.
-
-This output indicates that a TCP retransmission event has been captured, and it provides detailed information about the TCP connection's state, such as the number of retransmissions, the round-trip time, and the congestion window size. 
+This output indicates that a TCP retransmission event has been captured, and it provides detailed of the event. 
 
 -- 
 
