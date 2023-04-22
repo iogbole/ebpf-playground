@@ -1,5 +1,8 @@
 # proj-9
 
+> **Warning**
+> This repo isn't your typical Go project layout. Every folder in this repo has a main function because it's only intended to demonstrate the act of the possible. 
+
 ## VM 
 
 There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code
