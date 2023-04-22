@@ -15,7 +15,7 @@ Clone repo
 ```
 cd tcp_retransmit 
 
-sudo apt-get install -y bpfcc-tools
+sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
 
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h # See tip 2 below.
 
