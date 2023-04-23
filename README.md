@@ -34,32 +34,47 @@ cd project-9
 
 cd tcp_retransmit 
 
+make #to run the make file
+```
+
+
+Or run each step below manually. The Makefile above automates all the steps below.
+
+
+
+```
+
 sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
 
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h # See tip 2 below.
 
 ./clang.sh  # Compile C code 
 
-go build main.go # Build go code  
+go build retrans.go # Build go code  
 
-./main # run go code 
+./retrans # run go code 
 
 ```
+
 ## Simulate packet loss to cause TCP transmission 
 
+Now run the ./curl.sh to simulate packet loss. This script generates multiple TCP events using curl and wget, but `5%` of the TCP events are corrupted by force.
+
+`sudo tc qdisc add dev eth0 root netem loss 5% delay 100ms`
+
+You may increase the `5%` to `10%` if you want to force the kernel to perform more retransmissions, but doing so may disconnect your SSH access and the HTTP listener in the Go app.
 
 
-Mess around with the network parket from kernel by using Traffic control (`tc`) 
 
-To start
-`sudo tc qdisc add dev lo root netem loss 10%` 
+## The Prometheus example 
 
-To stop 
-sudo tc qdisc del dev lo root 
+the `tcp_retrans_prom` folder contains example of how to expose the telemetry for Prom to scrape it. 
 
-Note this might disconnct your SSH connection if you increase it any higher.  
+Execute the `run_prom.sh` to get prom started in the lima VM. 
+On your mac, go to http://localhost:9090 to be sure it's up and running 
 
-See the `add_net_load.sh` script for details
+The go app runs an HTTP server for prom at http://localhost:2112 
+
 
 
 ## Output 
@@ -76,6 +91,8 @@ See the `add_net_load.sh` script for details
 This output indicates that a TCP retransmission event has been captured, and it provides detailed of the event. 
 
 -- 
+
+## Tips 
 
 ## Tips 
 
