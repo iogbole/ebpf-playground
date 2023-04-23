@@ -3,19 +3,35 @@
 > **Warning**
 > This repo isn't your typical Go project layout. Every folder in this repo has a main function because it's only intended to demonstrate the act of the possible. 
 
-## VM 
+## Dev env setup 
 
-There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code
+There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code. 
+
+Install lima, then: 
+
 ```
 limactl start ebpf-vm.yaml
 limactl shell ebpf-vm
 ```
 
-##  Setting up 
+If you'd like to Visual Studio Code, 
 
-Clone repo
+Get the SSH command 
+
+`limactl show-ssh ebpf-vm` 
+
+Then [Connect to remote server via SSH](https://code.visualstudio.com/docs/remote/ssh) in Visual Studio Code
+
+Next, clone the repo 
+
+`git clone https://github.com/iogbole/proj-9.git`
+
+
+##  Running TCP retransmit ebpf code 
 
 ```
+cd project-9
+
 cd tcp_retransmit 
 
 sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
