@@ -1,11 +1,12 @@
 # proj-9
 
 > **Warning**
-> This repo isn't your typical Go project layout. Every folder in this repo has a main function because it's only intended to demonstrate the act of the possible. 
+>This repo does not follow the typical Go project layout. Every folder in this repo has a main function, as it is solely intended to demonstrate various possibilities.
+
 
 ## Dev env setup 
 
-There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code. 
+There's a [Lima](https://github.com/lima-vm/lima) config file with the packages needed for building the code.
 
 Install lima, then: 
 
@@ -44,7 +45,7 @@ Or run each step below manually. The Makefile above automates all the steps belo
 
 ```
 
-sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
+sudo apt-get install -y bpfcc-tools #should be installed as part of the lima startup 
 
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h # See tip 2 below.
 
@@ -68,13 +69,12 @@ You may increase the `5%` to `10%` if you want to force the kernel to perform mo
 
 ## The Prometheus example 
 
-the `tcp_retrans_prom` folder contains example of how to expose the telemetry for Prom to scrape it. 
+the `tcp_retrans_prom` folder contains an example of how to expose the telemetry for Prom to scrape it. 
 
 Execute the `run_prom.sh` to get prom started in the lima VM. 
-On your mac, go to http://localhost:9090 to be sure it's up and running 
+On your mac, go to http://localhost:9090 to be sure it is up and running 
 
 The go app runs an HTTP server for prom at http://localhost:2112 
-
 
 
 ## Output 
@@ -92,7 +92,6 @@ This output indicates that a TCP retransmission event has been captured, and it 
 
 -- 
 
-## Tips 
 
 ## Tips 
 
