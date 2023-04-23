@@ -1,52 +1,92 @@
 # proj-9
 
 > **Warning**
-> This repo isn't your typical Go project layout. Every folder in this repo has a main function because it's only intended to demonstrate the act of the possible. 
+>This repo does not follow the typical Go project layout. Every folder in this repo has a main function, as it is solely intended to demonstrate various possibilities.
 
-## VM 
 
-There's a [Lima](https://github.com/lima-vm/lima) config file with the packages you need for building the code
+## Dev env setup 
+
+There's a [Lima](https://github.com/lima-vm/lima) config file with the packages needed for building the code.
+
+Install lima, then: 
+
 ```
 limactl start ebpf-vm.yaml
 limactl shell ebpf-vm
 ```
 
-##  Setting up 
+If you'd like to Visual Studio Code, 
 
-Clone repo
+Get the SSH command 
+
+`limactl show-ssh ebpf-vm` 
+
+Then [Connect to remote server via SSH](https://code.visualstudio.com/docs/remote/ssh) in Visual Studio Code
+
+Next, clone the repo 
+
+`git clone https://github.com/iogbole/proj-9.git`
+
+
+##  Running TCP retransmit ebpf code 
 
 ```
+cd project-9
+
 cd tcp_retransmit 
 
-sudo apt-get install -y bpfcc-tools #should be install as part of the lima startup 
+make #to run the make file
+```
+
+
+Or run each step below manually. The Makefile above automates all the steps below.
+
+
+
+```
+
+sudo apt-get install -y bpfcc-tools #should be installed as part of the lima startup 
 
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h # See tip 2 below.
 
 ./clang.sh  # Compile C code 
 
-go build main.go # Build go code  
+go build retrans.go # Build go code  
 
-./main # run go code 
+./retrans # run go code 
 
 ```
+
 ## Simulate packet loss to cause TCP transmission 
 
+Now run the ./curl.sh to simulate packet loss. This script generates multiple TCP events using curl and wget, but `5%` of the TCP events are corrupted by force.
+
+`sudo tc qdisc add dev eth0 root netem loss 5% delay 100ms`
+
+You may increase the `5%` to `10%` if you want to force the kernel to perform more retransmissions, but doing so may disconnect your SSH access and the HTTP listener in the Go app.
 
 
-Mess around with the network parket from kernel by using Traffic control (`tc`) 
 
-To start
-`sudo tc qdisc add dev lo root netem loss 10%` 
+## The Prometheus example 
 
-To stop 
-sudo tc qdisc del dev lo root 
+the `tcp_retrans_prom` folder contains an example of how to expose the telemetry for Prom to scrape it. 
 
-Note this might disconnct your SSH connection if you increase it any higher.  
+Execute the `run_prom.sh` to get prom started in the lima VM. 
+On your mac, go to http://localhost:9090 to be sure it is up and running 
 
-See the `add_net_load.sh` script for details
+The go app runs an HTTP server for prom at http://localhost:2112 
 
 
-## Output 
+## Prom Output 
+http://locahost:9090 
+
+
+<img width="1410" alt="Screenshot 2023-04-23 at 7 45 30 pm" src="https://user-images.githubusercontent.com/2548160/233858880-d68090ce-26aa-48f7-b698-46275ade0e31.png">
+
+<img width="1404" alt="Screenshot 2023-04-23 at 7 43 37 pm" src="https://user-images.githubusercontent.com/2548160/233858885-0e011398-f7a4-47ee-8809-c1e2156402af.png">
+
+
+## Console Output 
 
 ```
 {"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":38130},"state":65536,"timestamp":"1970-01-04T23:40:37Z"}
@@ -56,10 +96,10 @@ See the `add_net_load.sh` script for details
 {"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":56912},"state":65536,"timestamp":"1970-01-04T23:41:51Z"}
 {"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":56912},"state":65536,"timestamp":"1970-01-04T23:41:52Z"}
 ```
-
 This output indicates that a TCP retransmission event has been captured, and it provides detailed of the event. 
 
--- 
+--
+
 
 ## Tips 
 
