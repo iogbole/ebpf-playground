@@ -77,7 +77,16 @@ On your mac, go to http://localhost:9090 to be sure it is up and running
 The go app runs an HTTP server for prom at http://localhost:2112 
 
 
-## Output 
+## Prom Output 
+http://locahost:9090 
+
+
+<img width="1410" alt="Screenshot 2023-04-23 at 7 45 30 pm" src="https://user-images.githubusercontent.com/2548160/233858880-d68090ce-26aa-48f7-b698-46275ade0e31.png">
+
+<img width="1404" alt="Screenshot 2023-04-23 at 7 43 37 pm" src="https://user-images.githubusercontent.com/2548160/233858885-0e011398-f7a4-47ee-8809-c1e2156402af.png">
+
+
+## Console Output 
 
 ```
 {"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":38130},"state":65536,"timestamp":"1970-01-04T23:40:37Z"}
@@ -87,10 +96,9 @@ The go app runs an HTTP server for prom at http://localhost:2112
 {"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":56912},"state":65536,"timestamp":"1970-01-04T23:41:51Z"}
 {"destination":{"ip":"142.250.180.4","port":443},"ipversion":4,"pid":0,"source":{"ip":"192.168.5.15","port":56912},"state":65536,"timestamp":"1970-01-04T23:41:52Z"}
 ```
-
 This output indicates that a TCP retransmission event has been captured, and it provides detailed of the event. 
 
--- 
+--
 
 
 ## Tips 
