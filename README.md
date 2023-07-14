@@ -1,4 +1,4 @@
-# proj-9
+# Learning eBPF
 
 > **Warning**
 >This repo does not follow the typical Go project layout. Every folder in this repo has a main function, as it is solely intended to demonstrate various possibilities.
