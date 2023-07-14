@@ -15,7 +15,7 @@ limactl start ebpf-vm.yaml
 limactl shell ebpf-vm
 ```
 
-If you'd like to Visual Studio Code, 
+If you'd like to use Visual Studio Code, 
 
 Get the SSH command 
 
@@ -25,13 +25,13 @@ Then [Connect to remote server via SSH](https://code.visualstudio.com/docs/remot
 
 Next, clone the repo 
 
-`git clone https://github.com/iogbole/proj-9.git`
+`git clone https://github.com/iogbole/ebpf-playground.git`
 
 
 ##  Running TCP retransmit ebpf code 
 
 ```
-cd project-9
+cd ebpf-playground
 
 cd tcp_retransmit 
 
